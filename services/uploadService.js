@@ -52,7 +52,6 @@ const uploadDocument = async (buffer, originalname) => {
     });
 };
 
-// Delete file from Cloudinary
 const deleteFile = async (publicId) => {
     try {
         const result = await cloudinary.uploader.destroy(publicId);
