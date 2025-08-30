@@ -60,7 +60,7 @@ export const getTasks = async function(req, res, next) {
 
         res.status(200).json({
             success: true,
-            message: 'Tasks retrieved successfully.',
+            message: 'Tasks retrieved successfully',
             data: {
                 tasks
             }
