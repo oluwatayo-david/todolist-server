@@ -10,37 +10,32 @@ import taskRoutes from "./routes/task.routes.js";
 import cors from "cors";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-app.use(protectionMiddleware)
-
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/tasks', taskRoutes)
-app.use(errorMiddleware);
-
-
-
-
 
 app.use(cors({
-    origin: ['http://localhost:5173/'],
+    origin: ['http://localhost:5173'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
+app.use(protectionMiddleware);
 
+// Routes come after CORS
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/tasks', taskRoutes);
 
 app.get('/', (req, res) => {
-  res.send('welcome to my server');
-})
+    res.send('welcome to my server');
+});
 
+app.use(errorMiddleware);
 
-app.listen( PORT,async () =>{
-  console.log(`Server started on port: http://localhost:${PORT}`);
- await  connectToDatabase()
-})
+app.listen(PORT, async () => {
+    console.log(`Server started on port: http://localhost:${PORT}`);
+    await connectToDatabase();
+});
