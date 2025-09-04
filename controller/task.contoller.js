@@ -75,7 +75,7 @@ export const getTaskById = async function(req, res, next) {
 
         const data = await Task.findOne({ _id: id, user: userId });
 
-        if (!task) {
+        if (!data) {
             const error = new Error('Task not found');
             error.statusCode = 404;
             throw error;
