@@ -19,8 +19,8 @@ const taskSchema = new mongoose.Schema({
     startDate: {
         type: Date,
         validate: {
-            validator: (value) => value <= new Date(),
-            message: 'Start date must be in the past',
+            validator: (value) => value >= new Date(),
+            message: 'Start date must be in the valid',
         }
     },
 
