@@ -32,7 +32,7 @@ export const createTask = async function(req, res, next) {
             }
 
 
-        const newTask = await Task.create([taskData], { session });
+        const data = await Task.create([taskData], { session });
 
         await session.commitTransaction();
         session.endSession();
@@ -42,9 +42,7 @@ export const createTask = async function(req, res, next) {
         res.status(201).json({
             success: true,
             message: 'Task created successfully.',
-            data: {
-                 newTask
-            }
+            data
         });
     } catch (e) {
         await session.abortTransaction();
@@ -56,14 +54,12 @@ export const createTask = async function(req, res, next) {
 export const getTasks = async function(req, res, next) {
     try {
         const userId = req.user._id;
-        const tasks = await Task.find({ user: userId }).sort({ createdAt: -1 });
+        const data = await Task.find({ user: userId }).sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
             message: 'Tasks retrieved successfully',
-            data: {
-                tasks
-            }
+            data
         });
     } catch (e) {
         next(e);
@@ -77,7 +73,7 @@ export const getTaskById = async function(req, res, next) {
         const { id } = req.params;
         const userId = req.user._id;
 
-        const task = await Task.findOne({ _id: id, user: userId });
+        const data = await Task.findOne({ _id: id, user: userId });
 
         if (!task) {
             const error = new Error('Task not found');
@@ -90,9 +86,7 @@ export const getTaskById = async function(req, res, next) {
         res.status(200).json({
             success: true,
             message: 'Task retrieved successfully.',
-            data: {
-                task
-            }
+            data
         });
     } catch (e) {
         next(e);
@@ -165,7 +159,7 @@ export const deleteTask =  async function(req, res, next) {
         }
 
 
-        const deleteTask = await Task.findByIdAndDelete({ _id: id } , { new: true, runValidators: true });
+        const data = await Task.findByIdAndDelete({ _id: id } , { new: true, runValidators: true });
 
 
 
@@ -174,9 +168,7 @@ export const deleteTask =  async function(req, res, next) {
         res.status(201).json({
             success: true,
             message: 'Task deleted successfully.',
-            data: {
-                deleteTask
-            }
+            data
         });
     } catch (e) {
 
